@@ -1,6 +1,11 @@
 FROM dunglas/frankenphp:1-php8.5.2
 RUN install-php-extensions \
     pcntl \
+    pdo_pgsql \
+    pgsql \
+    pdo_sqlite \
+    sqlite3 \
+    pdo_mysql \
     zip
 
 WORKDIR /app

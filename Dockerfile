@@ -1,10 +1,8 @@
-FROM jkaninda/laravel-php-fpm:8.4-alpine
-
-WORKDIR /var/www/html
+FROM dunglas/frankenphp:1-php8.5.2
+RUN install-php-extensions \
+    pcntl
+WORKDIR /app
 COPY . .
-RUN composer install --no-interaction --prefer-dist
-RUN apk add --no-cache fcgi
-RUN wget -O /usr/local/bin/php-fpm-healthcheck \
-    https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck \
-    && chmod +x /usr/local/bin/php-fpm-healthcheck
-
+EXPOSE 80
+RUN ["php", "artisan", "migrate"]
+ENTRYPOINT ["php", "artisan", "octane:frankenphp", "--host=0.0.0.0", "--port=80"]

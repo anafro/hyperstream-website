@@ -4,6 +4,8 @@ RUN install-php-extensions \
 
 WORKDIR /app
 COPY . .
+COPY --from=composer:2.9.5 /usr/bin/composer /usr/bin/composer
+RUN ["composer", "install", "--no-dev", "--optimize-autoloader"]
 RUN ["chmod", "+x", "./entrypoint.sh"]
 
 EXPOSE 80

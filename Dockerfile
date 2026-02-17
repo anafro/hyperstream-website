@@ -7,6 +7,7 @@ RUN install-php-extensions \
     sqlite3 \
     pdo_mysql \
     zip
+    opentelemetry
 
 WORKDIR /app
 COPY . .

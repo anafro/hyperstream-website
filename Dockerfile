@@ -10,12 +10,15 @@ RUN install-php-extensions \
     opentelemetry
 
 WORKDIR /app
-COPY . .
 COPY --from=composer:2.9.5 /usr/bin/composer /usr/bin/composer
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends unzip git \
+    && apt-get install -y --no-install-recommends unzip git nodejs npm \
     && rm -rf /var/lib/apt/lists/*
-RUN ["composer", "install", "--no-dev", "--optimize-autoloader"]
+COPY ./package.json ./package-lock.json ./
+RUN npm ci
+COPY . .
+RUN OTEL_SDK_DISABLED=false composer install --no-dev --optimize-autoloader
+RUN npm run build
 RUN ["chmod", "+x", "./entrypoint.sh"]
 
 EXPOSE 80

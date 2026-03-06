@@ -21,8 +21,8 @@ export type SongDownloaded = Event<Song>;
 export type SongExpose = Event<Pick<Song, 'id'>>;
 
 export type SongExposed = Event<{
-    url: string,
-} & Pick<Song, 'id'>>;
+    uri: string,
+} & Song>;
 
 export type SongList = Signal;
 export type SongListed = Event<{

@@ -7,11 +7,11 @@ import ProfilePicture from "@/components/shared/ProfilePicture.vue";
 import HeaderVSeparator from "@/components/shared/HeaderVSeparator.vue";
 import Playlist from "@/components/playlists/Playlist.vue";
 import Song from "@/components/playlists/Song.vue";
-import Player from "@/components/playlists/Player.vue";
 import { useSongsStore } from "@/hyperstream/hooks/songs";
 import DownloadingSong from "@/components/playlists/DownloadingSong.vue";
 import { useSongDownloaderStore } from "@/hyperstream/hooks/song-downloader";
 import { storeToRefs } from "pinia";
+import PlayerTimeline from "@/components/playlists/PlayerTimeline.vue";
 
 
 const searchQuery = ref('');
@@ -38,10 +38,10 @@ const { requestDownload } = useSongDownloaderStore();
             <template v-if="songsRequested">
                 <Song v-for="_ in 12" skeleton></Song>
             </template>
-            <Song v-else v-for="song in songs" :title="song.title" :author="song.author" :length="song.length"
-                cover-src="/@anafro/profile-picture" :effects="[]"></Song>
+            <Song v-else v-for="song in songs" :id="song.id" :title="song.title" :author="song.author"
+                :length="song.length" cover-src="/@anafro/profile-picture" :effects="[]"></Song>
         </Playlist>
 
-        <Player></Player>
+        <PlayerTimeline></PlayerTimeline>
     </LayoutWithHeader>
 </template>

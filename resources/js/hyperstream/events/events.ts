@@ -16,10 +16,6 @@ export type SongDownload = Event<{
     query: string,
 }>;
 
-export type SongDownloading = Event<{
-    percent: number,
-} & Omit<Song, 'id'>>;
-
 export type SongDownloaded = Event<Song>;
 
 export type SongExpose = Event<Pick<Song, 'id'>>;
@@ -35,7 +31,6 @@ export type SongListed = Event<{
 
 export interface HyperstreamEvents {
     "song.download": SongDownload;
-    "song.downloading": SongDownloading;
     "song.downloaded": SongDownloaded;
     "song.expose": SongExpose;
     "song.exposed": SongExposed;

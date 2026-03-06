@@ -4,6 +4,10 @@ import Image from "@/components/shared/Image.vue";
 import Skeleton from "@/components/shared/Skeleton.vue";
 import { formatSongLength } from "@/hyperstream/models/song";
 import { computed } from "vue";
+import Button from "@/components/shared/Button.vue";
+import Icon from "../shared/Icon.vue";
+import { storeToRefs } from "pinia";
+import { useSongExposeStore } from "@/hyperstream/hooks/song-expose";
 
 
 export type Props = {
@@ -12,13 +16,17 @@ export type Props = {
     title?: string;
     length?: number;
     skeleton?: boolean;
+    playing?: boolean;
 }
 
 const {
-    id: _, title, author, length, skeleton = false,
+    id = null, title = 'Unknown', author = 'Unknown', length, skeleton = false, playing = false,
 } = defineProps<Props>();
 
+const { songUri } = storeToRefs(useSongExposeStore());
+const { requestSongExpose } = useSongExposeStore();
 const formattedLength = computed<string>((): string => formatSongLength(length ?? 0));
+const playable = computed(() => id !== null);
 
 </script>
 
@@ -48,8 +56,15 @@ const formattedLength = computed<string>((): string => formatSongLength(length ?
         </template>
         <template v-else>
             <td class="max-w-12 py-3">
-                <Image class="rounded-sm size-10" :class="{ 'animate-pulse': skeleton }"
-                    :src="`/@placeholder/profile-picture/`" alt="" />
+                <div class="size-10 relative rounded-sm contain-paint">
+                    <Image class="size-full absolute inset-0" :class="{ 'animate-pulse': skeleton }"
+                        :src="`/@placeholder102/profile-picture/`" alt="" />
+                    <Button v-if="playable"
+                        class="opacity-0 absolute inset-0 rounded-none bg-zinc-100/50 dark:bg-zinc-950/50 hover:opacity-100 transition-colors"
+                        variant="secondary" @click="requestSongExpose(id!)">
+                        <Icon variant="fill">{{ playing ? 'pause' : 'play_arrow' }}</Icon>
+                    </Button>
+                </div>
             </td>
             <td class="text-left">
                 <div class="flex items-start justify-center flex-col">

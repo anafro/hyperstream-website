@@ -1,11 +1,9 @@
 <?php
 
 use App\Http\Controllers\StatusController;
+use App\Support\Inertia\InertiaRoute;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
-
+InertiaRoute::view('/', 'Landing')->name('landing');
+InertiaRoute::view('/favorites', 'Favorites')->name('favorites');
 Route::get("/status", StatusController::class);

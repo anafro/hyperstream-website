@@ -16,8 +16,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 COPY ./package.json ./package-lock.json ./
 RUN npm ci
+COPY ./composer.json ./
+RUN OTEL_SDK_DISABLED=false composer install --no-dev --optimize-autoloader --no-scripts
 COPY . .
-RUN OTEL_SDK_DISABLED=false composer install --no-dev --optimize-autoloader
+RUN composer run-script post-autoload-dump
 RUN npm run build
 RUN ["chmod", "+x", "./entrypoint.sh"]
 

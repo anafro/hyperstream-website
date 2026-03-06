@@ -1,5 +1,22 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+    html {
+        font-size: clamp(16px, 0.9vw + 0.2rem, 22px);
+    }
+
+    *::selection {
+        background-color: #00000015;
+    }
+
+    .dark *::selection {
+        background-color: #FFFFFF15;
+    }
+}
+
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 

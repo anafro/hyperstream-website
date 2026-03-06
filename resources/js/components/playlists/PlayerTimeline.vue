@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import Text from "@/components/shared/Text.vue";
+import { useSongExposeStore } from "@/hyperstream/hooks/song-expose";
+import { storeToRefs } from "pinia";
 
 interface Props {
 
@@ -8,13 +9,15 @@ interface Props {
 const {
 
 } = defineProps<Props>();
+
+const {
+    songUri,
+} = storeToRefs(useSongExposeStore());
 </script>
 
 <template>
     <div
         class="fixed bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-100 from-75% to-transparent to-100% dark:from-zinc-950 flex items-center justify-center gap-x-12 mx-12">
-        <Text>0:51</Text>
-        <input type="range" class="flex-1 accent-zinc-700 dark:accent-zinc-300">
-        <Text>5:39</Text>
+        <audio class="w-full bg-zinc-100 dark:bg-zinc-950" controls v-if="songUri !== null" :src="songUri"></audio>
     </div>
 </template>

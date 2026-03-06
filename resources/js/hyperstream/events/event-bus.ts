@@ -21,6 +21,7 @@ export const useEventBusStore = defineStore('event-bus', () => {
             content: eventContent,
         } as unknown as HyperstreamEvents[TEventName];
 
+        console.info(`[SEND] ${eventName} = ${JSON.stringify(event)}`);
         socketio.emit(eventName, event);
     }
 
@@ -33,6 +34,7 @@ export const useEventBusStore = defineStore('event-bus', () => {
             const text = decoder.decode(bytes);
             const event = JSON.parse(text);
 
+            console.info(`[RECV] ${eventName} = ${JSON.stringify(event)}`);
             eventListener(event);
         });
 

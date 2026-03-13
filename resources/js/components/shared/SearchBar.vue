@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import { useMagicKeys, whenever } from '@vueuse/core';
-import { computed, unref, useTemplateRef } from "vue";
-
-import { when } from "@/hyperstream/support/vue/when.ts";
-import { onShortcut } from "@/hyperstream/support/vue/shortcut.ts";
 import Button from "@/components/shared/Button.vue";
 import Icon from "@/components/shared/Icon.vue";
 import Text from "@/components/shared/Text.vue";
+import { onShortcut } from "@/hyperstream/support/vue/shortcut";
+import { when } from "@/hyperstream/support/vue/when";
+import { computed, unref, useTemplateRef } from "vue";
 
 
-/// --- Properties
 type Props = {
     placeholder?: string;
 };
@@ -19,21 +16,12 @@ const {
 } = defineProps<Props>();
 
 
-// --- Elements
 const inputRef = useTemplateRef('input');
-
-
-/// --- Data
-const value = defineModel();
+const value = defineModel<string>({ required: true });
 const empty = computed(() => unref(value).trim().length === 0);
 
-
-/// --- Methods
 const clear = () => value.value = '';
-const focus = () => when(inputRef, input => input.focus());
-
-
-/// --- API
+const focus = () => when(inputRef, input => input?.focus?.());
 const emit = defineEmits<{
     submit: [],
 }>();

@@ -1,5 +1,13 @@
 <script setup lang="ts">
 import Text from "@/components/shared/Text.vue";
+
+type Props = {
+    variant?: 'songs' | 'remixes';
+};
+
+const {
+    variant = 'songs',
+} = defineProps<Props>();
 </script>
 
 <template>
@@ -12,6 +20,12 @@ import Text from "@/components/shared/Text.vue";
                 </th>
                 <th class="text-left">
                     <Text>Title</Text>
+                </th>
+                <th v-if="variant === 'remixes'">
+                    <Text>Effects</Text>
+                </th>
+                <th v-if="variant === 'remixes'">
+                    <Text>Remixed by</Text>
                 </th>
                 <th class="text-right w-8">
                     <Text>Length</Text>

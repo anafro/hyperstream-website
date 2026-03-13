@@ -12,11 +12,13 @@ import DownloadingSong from "@/components/playlists/DownloadingSong.vue";
 import { useSongDownloaderStore } from "@/hyperstream/hooks/song-downloader";
 import { storeToRefs } from "pinia";
 import PlayerTimeline from "@/components/playlists/PlayerTimeline.vue";
+import { useSongExposeStore } from "@/hyperstream/hooks/song-expose";
 
 
 const searchQuery = ref('');
 const { songs, songsRequested } = storeToRefs(useSongsStore());
 const { requestDownload } = useSongDownloaderStore();
+const { requestSongExpose } = useSongExposeStore();
 </script>
 
 <template>
@@ -39,7 +41,7 @@ const { requestDownload } = useSongDownloaderStore();
                 <Song v-for="_ in 12" skeleton></Song>
             </template>
             <Song v-else v-for="song in songs" :id="song.id" :title="song.title" :author="song.author"
-                :length="song.length" cover-src="/@anafro/profile-picture" :effects="[]"></Song>
+                :length="song.length" cover-src="/@anafro/profile-picture" @play="requestSongExpose(song.id)"></Song>
         </Playlist>
 
         <PlayerTimeline></PlayerTimeline>

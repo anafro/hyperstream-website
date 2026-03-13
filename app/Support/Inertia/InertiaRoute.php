@@ -17,7 +17,7 @@ class InertiaRoute
     public static function view(string $uri, string $component): \Illuminate\Routing\Route
     {
         return Route::get(uri: $uri, action: function () use ($component): \Inertia\Response {
-            return Inertia::render($component);
+            return Inertia::render($component, request()->route()->parameters());
         });
     }
 }
